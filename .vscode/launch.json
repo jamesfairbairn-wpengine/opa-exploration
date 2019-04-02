@@ -9,7 +9,8 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "args": ["-r", "500000", "-u", "100000", "-b", "500000"]
         },
         {
             "name": "Python: Remote Attach",
