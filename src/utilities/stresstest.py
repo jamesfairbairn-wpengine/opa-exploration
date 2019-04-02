@@ -11,19 +11,19 @@ class BindingsService():
         self._load_roles()
 
     def _load_users(self):
-
-        if not os.path.isfile('users.json'):
+        users_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'users.json')
+        if not os.path.isfile(users_path):
             raise Exception('Not users.json file to load data from. Run the datagenerator.py file and then try again.')
         
-        with open('users.json', 'r') as f:
+        with open(users_path, 'r') as f:
             self.users = json.load(f)
 
     def _load_roles(self):
-
-        if not os.path.isfile('roles.json'):
+        roles_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'roles.json')
+        if not os.path.isfile(roles_path):
             raise Exception('Not roles.json file to load data from. Run the datagenerator.py file and then try again.')
         
-        with open('roles.json', 'r') as f:
+        with open(roles_path, 'r') as f:
             self.roles = json.load(f)
 
     def get_random_user(self):
@@ -46,12 +46,15 @@ def update_input(binding_service):
         }
     }
 
-    with open('../opa/input.json', 'w') as f:
+    input_location = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'opa', 'input.json')
+    with open(input_location, 'w') as f:
         json.dump(new_input, f)
 
 
 def run_normal_eval():
-    p = run(['opa', 'eval', '--data', '../opa', '--input', '../opa/input.json', '--metrics', 'data.example_rbac'], capture_output=True)
+    opa_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'opa')
+    input_path = os.path.join(opa_dir, 'input.json')
+    p = run(['opa', 'eval', '--data', opa_dir, '--input', input_path, '--metrics', 'data.example_rbac'], capture_output=True)
     return json.loads(p.stdout)
 
 def run_partial_eval():

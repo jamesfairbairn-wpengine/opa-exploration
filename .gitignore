@@ -2,3 +2,4 @@ src/opa/*.json
 src/utilities/*.json
 __pycache__/
 test.json
+results.json
